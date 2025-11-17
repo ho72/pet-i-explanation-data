@@ -483,7 +483,7 @@ def call_teacher_llm(
     """OpenAI Chat Completions (환경변수에서 키를 읽음)."""
     try:
         #api_key = os.getenv(api_key_env, "")
-        api_key = "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"
+        api_key = <YOUT_API_KEY>
         if not api_key:
             print(f"[LLM] 환경변수 {api_key_env}가 비어있습니다. 규칙 기반 폴백을 사용합니다.")
             return None
