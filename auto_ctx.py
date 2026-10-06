@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-auto_ctx_pipeline_full.py
+auto_ctx.py
 -------------------------
 JSON(dir) or CSV → (진단별 로컬 KB + DuckDuckGo + Wikipedia) 검색 → CTX 구성 →
 Teacher LLM(근거 제한) → 검증 → SFT JSONL 자동 생성(툴콜 궤적 포함)
@@ -482,8 +482,7 @@ def call_teacher_llm(
 ) -> Optional[str]:
     """OpenAI Chat Completions (환경변수에서 키를 읽음)."""
     try:
-        #api_key = os.getenv(api_key_env, "")
-        api_key = <YOUT_API_KEY>
+        api_key = os.getenv(api_key_env, "")
         if not api_key:
             print(f"[LLM] 환경변수 {api_key_env}가 비어있습니다. 규칙 기반 폴백을 사용합니다.")
             return None

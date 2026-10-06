@@ -1,0 +1,15 @@
+{
+  "input": {
+    "text_name": "example_conjunctivitis",
+    "normalized": {
+      "diagnosis": "결막염",
+      "symptoms": ["결막 충혈", "눈곱 증가"]
+    },
+    "ctx": [],
+    "instructions": {
+      "freeze_report": true,
+      "use_ctx_only": true,
+      "sections": ["overview", "reasoning", "causes", "care"]
+    }
+  }
+}
