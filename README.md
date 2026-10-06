@@ -6,7 +6,7 @@ PET-I의 VLM 학습에 사용할 설명형 데이터를 준비하기 위해 구�
 
 이미지를 직접 분석하거나 질환을 새로 판별하는 기능은 이 저장소에 없습니다. `image_path`는 입력 식별자를 만드는 데 사용합니다. VLM 학습·평가와 전체 서비스 구조는 [PET-I-VLM-Diagnosis](https://github.com/ho72/PET-I-VLM-Diagnosis)를 참고하세요.
 
-[실행 안내](docs/SETUP.md) · [입출력 형식](docs/DATA_FORMAT.md) · [파이프라인 설계와 한계](docs/PIPELINE.md) · [기존 생성 예시](docs/GENERATED_EXAMPLES.md)
+[데이터 출처와 구성](docs/DATA_SOURCES.md) · [입출력 형식](docs/DATA_FORMAT.md) · [실행 안내](docs/SETUP.md) · [파이프라인 설계와 한계](docs/PIPELINE.md) · [기존 생성 예시](docs/GENERATED_EXAMPLES.md)
 
 ## 프로젝트와 담당 역할
 
@@ -15,6 +15,22 @@ PET-I의 VLM 학습에 사용할 설명형 데이터를 준비하기 위해 구�
 - **팀 결과와의 관계:** 최종 학습 데이터는 진단 JSON·진단 Markdown·설명형·챗봇형으로 구성되었습니다. 증상 추출·챗봇 데이터 생성과 서비스의 최종 통합에는 팀원도 참여했습니다.
 
 전체 모델의 분류 성능을 이 데이터 생성 모듈 단독의 성과로 표현하지 않습니다.
+
+## 데이터 출처와 형식
+
+PET-I 전체 프로젝트의 원본 이미지·라벨 출처는 **AI Hub의 [반려동물 안구 질환 데이터](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&dataSetSn=562&topMenu=100)**입니다. 공식 학습용 데이터는 JPG 이미지와 JSON 라벨로 제공됩니다. 프로젝트에서는 이 중 반려견 데이터의 7개 분류 항목으로 5,600장을 선별·전처리했습니다. 이는 전체 VLM 프로젝트의 이미지 준비 규모이며, 이 레포의 설명문 생성 건수는 아닙니다.
+
+| 구분 | 출처·준비 과정 | 형식과 이 모듈의 사용 방식 |
+| --- | --- | --- |
+| 원본 이미지·질환 라벨 | AI Hub 반려동물 안구 질환 데이터 | JPG + JSON. 전체 PET-I에서 사용하며 이 저장소에는 원본 이미지·라벨을 포함하지 않음 |
+| 설명 생성 입력 | 앞선 데이터 준비 단계에서 정리한 진단명·증상 | CSV(`image_path`, `diagnosis`, `symptoms`) 또는 정규화 JSON. 원본 AI Hub JSON을 그대로 읽는 방식은 아님 |
+| 로컬 지식 문서 | 프로젝트에서 준비한 질환별 [corpus](corpus/) 7개 | TXT. 문서별 원문 출처·작성 이력은 현재 파일에 기록되어 있지 않음 |
+| 선택적 외부 근거 | DuckDuckGo 검색 결과·영문 Wikipedia | 제목·URL·본문 발췌를 컨텍스트로 구성. 일부 상황에서는 코드에 저장된 시드 문서 사용 |
+| 생성 결과 | 진단명·증상·컨텍스트를 전달받은 GPT-4o 출력 | JSONL. 설명문을 담는 `service`와 학습 대화를 담는 `sft` 레코드 |
+
+공개 CSV는 **입력 형식을 보여주는 3건의 예시**이고, JSON 1건은 그 첫 행으로 구성한 형식 예시입니다. CSV 각 행을 원본 AI Hub 이미지·라벨과 대조한 매핑 기록은 없으므로 실제 학습 데이터의 일부라고 단정하지 않습니다. AI Hub 원본에 완성된 설명문이나 이 저장소의 SFT 대화가 포함되어 있다는 의미도 아닙니다.
+
+전체 생성 데이터 건수, 필터 통과 건수, 학습·평가 분할은 이 레포에 기록되어 있지 않습니다. 단계별 출처와 공개 파일 목록은 [데이터 구성 안내](docs/DATA_SOURCES.md), 구체적인 필드 예시는 [입출력 형식](docs/DATA_FORMAT.md)에서 확인할 수 있습니다.
 
 ## 데이터 생성 흐름
 
@@ -52,6 +68,7 @@ PET-I-Explanation-Data/
 │   └── example_input.json        # JSON 입력 형식 예시 1건
 └── docs/
     ├── SETUP.md                  # 설치·실행·문제 해결
+    ├── DATA_SOURCES.md           # 원본·입력·근거·생성 데이터 출처
     ├── DATA_FORMAT.md            # 입력·출력 스키마
     ├── PIPELINE.md               # 함수별 흐름과 구현 한계
     └── GENERATED_EXAMPLES.md     # 기존 README의 생성 예시

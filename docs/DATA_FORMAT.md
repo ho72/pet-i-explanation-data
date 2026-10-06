@@ -1,6 +1,8 @@
 # 입력과 출력 데이터 형식
 
-[프로젝트 소개](../README.md) · [실행 안내](SETUP.md) · [파이프라인](PIPELINE.md)
+[프로젝트 소개](../README.md) · [데이터 출처와 구성](DATA_SOURCES.md) · [실행 안내](SETUP.md) · [파이프라인](PIPELINE.md)
+
+이 문서는 설명 생성 모듈의 CSV·JSON 입력과 JSONL 출력을 설명합니다. AI Hub 원본은 JPG 이미지와 라벨 JSON이고, 이 모듈은 앞선 전처리에서 준비한 진단명·증상을 입력받습니다. 원본 데이터와 공개 예시의 관계는 [데이터 출처](DATA_SOURCES.md)를 참고하세요.
 
 ## CSV 입력
 
