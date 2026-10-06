@@ -7,8 +7,8 @@
 저장소 루트에서 실행하세요. 현재 코드는 로컬 문서를 `./corpus`에서 찾고 검색 스냅샷을 `./debug`에 저장합니다.
 
 ```bash
-git clone https://github.com/ho72/PET-I-Explanation-Data.git
-cd PET-I-Explanation-Data
+git clone https://github.com/ho72/pet-i-explanation-data.git
+cd pet-i-explanation-data
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt

@@ -2,7 +2,7 @@
 
 [프로젝트 소개](../README.md) · [입출력 형식](DATA_FORMAT.md) · [실행 안내](SETUP.md)
 
-이 문서는 전체 PET-I의 원본 이미지 데이터, 설명 생성 모듈의 입력, 검색 근거, LLM이 만든 출력을 구분합니다. 공식 데이터의 정보는 2026.10.06에 AI Hub 데이터셋 소개를 확인했고, 프로젝트 사용 범위는 [대표 레포의 최종 보고서](https://github.com/ho72/PET-I-VLM-Diagnosis/blob/main/docs/PETI_final_report.pdf)를 기준으로 정리했습니다.
+이 문서는 전체 PET-I의 원본 이미지 데이터, 설명 생성 모듈의 입력, 검색 근거, LLM이 만든 출력을 구분합니다. 공식 데이터의 정보는 2026.10.06에 AI Hub 데이터셋 소개를 확인했고, 프로젝트 사용 범위는 [대표 레포의 최종 보고서](https://github.com/ho72/pet-i-vlm-diagnosis/blob/main/docs/PETI_final_report.pdf)를 기준으로 정리했습니다.
 
 ## 1. 전체 프로젝트의 원본 이미지와 라벨
 

@@ -4,7 +4,7 @@
 
 PET-I의 VLM 학습에 사용할 설명형 데이터를 준비하기 위해 구현한 모듈입니다. CSV 또는 JSON으로 주어진 진단명·증상을 읽고, 질환별 로컬 문서와 선택적 웹 검색 결과를 모아 Teacher LLM에 전달합니다. 결과는 서비스용 설명문과 검색·열람 대화 형식의 학습 레코드로 저장합니다.
 
-이미지를 직접 분석하거나 질환을 새로 판별하는 기능은 이 저장소에 없습니다. `image_path`는 입력 식별자를 만드는 데 사용합니다. VLM 학습·평가와 전체 서비스 구조는 [PET-I-VLM-Diagnosis](https://github.com/ho72/PET-I-VLM-Diagnosis)를 참고하세요.
+이미지를 직접 분석하거나 질환을 새로 판별하는 기능은 이 저장소에 없습니다. `image_path`는 입력 식별자를 만드는 데 사용합니다. VLM 학습·평가와 전체 서비스 구조는 [PET-I-VLM-Diagnosis](https://github.com/ho72/pet-i-vlm-diagnosis)를 참고하세요.
 
 [데이터 출처와 구성](docs/DATA_SOURCES.md) · [입출력 형식](docs/DATA_FORMAT.md) · [실행 안내](docs/SETUP.md) · [파이프라인 설계와 한계](docs/PIPELINE.md) · [기존 생성 예시](docs/GENERATED_EXAMPLES.md)
 
@@ -59,7 +59,7 @@ flowchart TD
 ## 저장소 구성
 
 ```text
-PET-I-Explanation-Data/
+pet-i-explanation-data/
 ├── auto_ctx.py                   # 입력·검색·생성·JSONL 저장
 ├── requirements.txt             # 외부 검색·Teacher LLM 패키지
 ├── corpus/                      # 질환별 로컬 텍스트 문서
@@ -77,8 +77,8 @@ PET-I-Explanation-Data/
 ## 빠른 시작
 
 ```bash
-git clone https://github.com/ho72/PET-I-Explanation-Data.git
-cd PET-I-Explanation-Data
+git clone https://github.com/ho72/pet-i-explanation-data.git
+cd pet-i-explanation-data
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
@@ -110,7 +110,7 @@ python auto_ctx.py \
 
 | 저장소 | 역할 |
 | --- | --- |
-| [PET-I-VLM-Diagnosis](https://github.com/ho72/PET-I-VLM-Diagnosis) | 전체 프로젝트 소개와 VLM 학습·평가·서비스 코드 |
-| [PET-I-Explanation-Data](https://github.com/ho72/PET-I-Explanation-Data) | 설명형 데이터 생성 파이프라인 — 현재 저장소 |
+| [PET-I-VLM-Diagnosis](https://github.com/ho72/pet-i-vlm-diagnosis) | 전체 프로젝트 소개와 VLM 학습·평가·서비스 코드 |
+| [PET-I-Explanation-Data](https://github.com/ho72/pet-i-explanation-data) | 설명형 데이터 생성 파이프라인 — 현재 저장소 |
 
 생성 예시는 모델 출력의 기록이며, 수의학적 정확성이 검증된 진단·치료 안내로 사용하지 않습니다.
