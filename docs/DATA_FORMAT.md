@@ -112,7 +112,7 @@ image_path,diagnosis,symptoms
 
 `--dry-run`에서는 입력당 `record_type: "preview"` 한 줄에 `input`, `ctx`, `prompt`, `meta`를 저장합니다. `meta.external_calls`는 false입니다. 생성문과 SFT를 만들지 않으며 학습에 넣는 레코드가 아닙니다.
 
-입력 형식 오류, 키 미설정, SDK/연결 오류, 빈 응답, 거절·중단 출력은 `record_type: "error"`, 원본 `input`, 오류 설명으로 저장합니다. 정상 `service`·`sft`를 생성하지 않고 다른 입력은 계속 처리합니다. 실패가 하나라도 있으면 CLI 종료 코드는 1입니다. 과거 폴백 문자열 방식의 출력과 구분하세요.
+입력 형식 오류, 키 미설정, SDK/연결 오류, 빈 응답, 거절·중단 출력은 `record_type: "error"`, 원본 `input`, 오류 설명으로 저장합니다. 정상 `service`·`sft`를 생성하지 않고 다른 입력은 계속 처리합니다. 실패가 하나라도 있으면 CLI 종료 코드는 1입니다.
 
 ## 검색 디버그 파일
 

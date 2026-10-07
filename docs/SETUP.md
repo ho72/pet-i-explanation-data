@@ -16,7 +16,7 @@ python auto_ctx.py --csv data/sample_input.csv --out outputs/preview.jsonl --k 4
 
 `--dry-run`은 **API 키 유무와 관계없이 외부 검색·Teacher 호출을 하지 않습니다.** 컨텍스트와 프롬프트를 `record_type: preview`로 저장하며 서비스 설명문·SFT 학습 레코드는 만들지 않습니다. 외부 검색 옵션과 함께 지정하면 종료 코드 2로 거절합니다.
 
-검증 환경은 Python 3.12.14입니다. `requirements.txt`의 직접 의존성과 `requirements.lock.txt`의 하위 의존성 제약은 2026.10.07 설치·테스트 조합입니다. 과거 졸업프로젝트의 정확한 의존성 lock을 복원한 것은 아닙니다.
+Python 3.12를 사용합니다. `requirements.txt`와 `requirements.lock.txt`는 현재 파이프라인의 설치·테스트에 사용한 의존성 버전을 지정합니다.
 
 기본 corpus는 스크립트 옆 `corpus/`를 사용하므로 다른 디렉터리에서 실행해도 찾을 수 있습니다. 문서 파일의 Unicode 이름을 정규화하여 비교하지만 원본 이름을 바꾸지 않습니다.
 
@@ -32,7 +32,7 @@ python auto_ctx.py \
   --k 20 --use_ddg --use_wiki
 ```
 
-모델 우선순위는 **`--model` → `OPENAI_MODEL` → 기존 기본값 `gpt-4o`**입니다. 자신의 계정에서 사용할 수 있는 모델을 선택합니다. 모델마다 파라미터 지원이 다를 수 있으며 이 공개 작업에서 실제 모델 접근·생성을 확인한 것은 아닙니다.
+모델 우선순위는 **`--model` → `OPENAI_MODEL` → 기존 기본값 `gpt-4o`**입니다. 자신의 계정에서 사용할 수 있는 모델을 선택합니다. 모델을 변경할 때는 Chat Completions와 요청 파라미터 지원 여부를 확인하세요.
 
 외부 검색을 끄면 로컬 문서·저장된 시드로 컨텍스트를 만들지만, dry-run이 아니면 Teacher 호출은 진행합니다. 시드 URL의 원문을 새로 열람하지는 않습니다.
 
@@ -79,4 +79,4 @@ ruff format --check .
 python -m pytest -q
 ```
 
-회귀 테스트 30개는 입력·컨텍스트·생성 오류·출력·CLI를 확인합니다. 설치한 OpenAI SDK의 응답 객체와 모의 클라이언트를 사용하며, 검색·유료 Teacher·VLM 학습을 실행하지 않습니다. [검증 기록](VALIDATION.md)을 참고하세요.
+회귀 테스트 31개는 입력·컨텍스트·생성 오류·출력·CLI를 확인합니다. 설치한 OpenAI SDK의 응답 객체와 모의 클라이언트를 사용하며, 검색·유료 Teacher·VLM 학습을 실행하지 않습니다. [테스트 안내](VALIDATION.md)를 참고하세요.
