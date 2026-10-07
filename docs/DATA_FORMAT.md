@@ -46,7 +46,7 @@ image_path,diagnosis,symptoms
 - `report_json`을 직접 제공하면 `normalized`보다 우선합니다. 이때 `diagnosis`, `symptoms`를 그 안에 넣습니다.
 - 입력 `ctx`에는 `idx`, `title`, `excerpt`, `url`을 가진 기존 컨텍스트를 전달할 수 있습니다.
 - 기본 네 섹션은 질병 설명·진단 근거·주요 발생 원인·관리 방법으로 프롬프트에서 매핑됩니다.
-- `freeze_report`, `use_ctx_only`를 기록하더라도 현재 코드에서 엄격한 검증 스위치로 작동하지는 않습니다. 실제 구현 범위는 [한계 안내](PIPELINE.md)를 참고하세요.
+- `use_ctx_only`는 true/false에 따라 근거 한정 또는 배경 지식 보충 지시를 만듭니다. `freeze_report`는 기존 메타데이터이며 자동 사실 검증 스위치가 아닙니다. [구현 범위](PIPELINE.md)를 참고하세요.
 
 ## 같은 JSONL에 저장되는 레코드
 
@@ -102,16 +102,18 @@ image_path,diagnosis,symptoms
 | 3 | `tool` (`search`) | 수집 문서의 제목·URL·요약 목록 |
 | 4 | `assistant` | 선택 컨텍스트의 `fetch` 호출 형식 |
 | 5 | `tool` (`fetch`) | 선택 문서의 발췌 목록 |
-| 6 | `assistant` | Teacher 설명문 또는 폴백 문자열 |
+| 6 | `assistant` | 정상 완료한 Teacher 설명문 |
 
 레코드는 `record_type`, `messages`, `meta`로 구성됩니다. `meta`에는 `diagnosis`, `symptoms`, `ctx_count`, `text_name`, `used_queries`, `has_citations`가 저장됩니다. `has_citations`는 출력에 `[`와 `]`가 포함되는지만 확인합니다.
 
 현재 `tool_calls`는 `name`, `arguments`를 가진 자체 형식이며 `tool` 메시지의 `content`는 목록입니다. API 표준 tool-call 메시지나 특정 학습기의 입력 형식과 동일하다고 가정하지 마세요. 이미지 데이터·이미지 토큰은 `messages`에 포함되지 않습니다.
 
-### `error`와 LLM 폴백
+### `preview`와 `error`
 
-행 처리 중 예외가 발생하면 `record_type: "error"`, 원본 `input`, 오류 설명을 저장합니다. 그러나 LLM 키 미설정·호출 실패는 `오류 - 풀백` 텍스트를 가진 `service`·`sft`로 저장될 수 있습니다. 학습 전에는 레코드 유형과 출력 텍스트·품질 필드를 함께 확인해야 합니다.
+`--dry-run`에서는 입력당 `record_type: "preview"` 한 줄에 `input`, `ctx`, `prompt`, `meta`를 저장합니다. `meta.external_calls`는 false입니다. 생성문과 SFT를 만들지 않으며 학습에 넣는 레코드가 아닙니다.
+
+입력 형식 오류, 키 미설정, SDK/연결 오류, 빈 응답, 거절·중단 출력은 `record_type: "error"`, 원본 `input`, 오류 설명으로 저장합니다. 정상 `service`·`sft`를 생성하지 않고 다른 입력은 계속 처리합니다. 실패가 하나라도 있으면 CLI 종료 코드는 1입니다. 과거 폴백 문자열 방식의 출력과 구분하세요.
 
 ## 검색 디버그 파일
 
-`debug/{text_name}.{stage}.json`에 문서 수와 제목·URL·출처·최대 220자의 본문 미리보기를 저장합니다. 단계 이름은 `collected_raw`, `after_filter1`, `after_dedup`, 필요 시 `after_relax`입니다. 출력 파일과 디버그 자료는 기본적으로 Git 추적에서 제외합니다.
+기본적으로 출력 파일 옆 `debug/{정규화된 이름}-{식별 해시}.{stage}.json`에 문서 수와 제목·URL·출처·최대 220자의 본문 미리보기를 저장합니다. 단계 이름은 `collected_raw`, `after_filter1`, `after_dedup`, 필요 시 `after_relax`입니다. 출력 파일과 디버그 자료는 기본적으로 Git 추적에서 제외합니다.

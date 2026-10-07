@@ -8,3 +8,6 @@ __pycache__/
 /debug/
 /outputs/
 .DS_Store
+
+.pytest_cache/
+.ruff_cache/
